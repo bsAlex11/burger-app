@@ -1,0 +1,14 @@
+.headerContaienr {
+    display: flex;
+    justify-content: space-between;
+}
+
+.imageContainer {
+    width: 70px;
+    height: 70px;
+}
+
+.imageContainer img {
+    width: 100%;
+    height: auto;
+}
