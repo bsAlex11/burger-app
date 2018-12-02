@@ -1,0 +1,56 @@
+.controlContainer {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+
+.controlContainer:last-of-type {
+    margin-bottom: 0;
+}
+
+.infoContainer {
+    min-width: 90px;
+}
+
+.controlContainer button:disabled {
+    background-color: #AC9980;
+    border: 1px solid #7E7365;
+    color: #ccc;
+    cursor: default;
+}
+
+.controlContainer button:hover:disabled {
+    background-color: #AC9980;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.Label {
+    padding: 10px;
+    font-weight: bold;
+    width: 80px;
+}
+
+.controlContainer .Less {  
+    background-color: #D39952;
+    color: white;
+}
+
+.controlContainer .More {
+    background-color: #8F5E1E;
+    color: white;
+}
+
+.controlContainer .Less:hover, .controlContainer .Less:active {  
+    background-color: #DAA972;
+    color: white;
+}
+
+.controlContainer .More:hover,.controlContainer .More:active {
+    background-color: #99703F;
+    color: white;
+}
+
+button {
+    cursor: pointer;
+}
