@@ -3,5 +3,6 @@
   "label.orders": "Orders",
   "label.less": "Less",
   "label.menu": "Menu",
-  "label.more": "More"
+  "label.more": "More",
+  "label.totalPrice": "Total Price:"
 }

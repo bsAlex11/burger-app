@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { injectIntl, InjectedIntlProps, InjectedIntl } from 'react-intl';
 
 import BurgerControl from './BurgerControl/BurgerControl';
 
@@ -10,15 +11,20 @@ interface IProps {
   ingredients: IIngredients;
   addIngredient: (type: string) => void;
   removeIngredient: (type: string) => void;
+  totalPrice: number;
+  intl: InjectedIntl;
 }
 
-const BurgerControls: React.SFC<IProps> = (props: IProps) => {
-  const { ingredients, addIngredient, removeIngredient } = props;
+const BurgerControls: React.SFC<IProps & InjectedIntlProps> = (props: IProps) => {
+  const { ingredients, addIngredient, removeIngredient, totalPrice, intl } = props;
 
   return (
     <div className='controlsContainer'>
+      <div className='priceContainer'>
+        <p>{ intl.formatMessage({ id: 'label.totalPrice' }) }<span>{ totalPrice.toFixed(2) }$</span></p>
+      </div>  
       {
-        Object.keys(ingredients).map((ingredient: string, index: number) => {
+        ingredients && Object.keys(ingredients).map((ingredient: string, index: number) => {
           return <BurgerControl 
               type={ ingredient }
               key={ index }
@@ -27,9 +33,9 @@ const BurgerControls: React.SFC<IProps> = (props: IProps) => {
               removeIngredient={ removeIngredient }
             />
         })
-      }
+      } 
     </div>  
   );
 }
 
-export default BurgerControls;
+export default injectIntl(BurgerControls);

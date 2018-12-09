@@ -1,75 +1,100 @@
 import * as React from 'react';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { connect } from 'react-redux';
 
 import Burger from '../Burger';
 import BurgerControls from '../BurgerControls/BurgerControls';
-import { axiosInstance } from '../../api/axiosConfig';
 
-import { IBurgerState } from './../IBurgerInterfaces';
+import { fetchIngredients, addIngredientAction, removeIngredientAction } from '../../store/actions/ingredientsActions';
+
+import { IBurgerState, IIngredients } from './../IBurgerInterfaces';
 
 import './BurgerContainer.css';
 
-class BurgerContainer extends React.Component<InjectedIntlProps, IBurgerState> {
+interface IProps {
+  getIngredients: () => void;
+  ingredients: IIngredients;
+  totalPrice: number;
+  initAddIngredient: (ingredientName: string) => void;
+  initRemoveIngredient: (ingredientName: string) => void;
+}
 
-  public state: IBurgerState = {
-    ingredients: {
-      salad: 2,
-      cheese: 1,
-      meat: 1,
-      bacon: 2
-    }
-  }
+class BurgerContainer extends React.Component<IProps, IBurgerState> {
+
+  // public state: IBurgerState = {
+  //   ingredients: {
+  //     salad: 2,
+  //     cheese: 1,
+  //     meat: 1,
+  //     bacon: 2
+  //   }
+  // }
 
   public componentDidMount() {
-
-    axiosInstance.get('ingredients.json').then(response => {
-      console.log(response);
-    });
+    this.props.getIngredients();
+    // axiosInstance.get('ingredients.json').then(response => {
+    //   console.log(response);
+    // });
   }
 
-  public addIngredientHandler: (type: string) => void = (type: string) => {
+  // public addIngredientHandler: (type: string) => void = (type: string) => {
 
-    this.setState((prevState: IBurgerState) => {
-      const newValue = prevState.ingredients[type] + 1;
-      const newIngredients = {...prevState.ingredients};
-      newIngredients[type] = newValue;
+  //   this.setState((prevState: IBurgerState) => {
+  //     const newValue = prevState.ingredients[type] + 1;
+  //     const newIngredients = {...prevState.ingredients};
+  //     newIngredients[type] = newValue;
 
-      return {
-        ingredients: newIngredients
-      };
-    })
-  }
+  //     return {
+  //       ingredients: newIngredients
+  //     };
+  //   })
+  // }
 
-  public removeIngredientHandler: (type: string) => void = (type: string) => {
-    if (this.state.ingredients[type] === 0) {
-      return;
-    }
+  // public removeIngredientHandler: (type: string) => void = (type: string) => {
+  //   if (this.state.ingredients[type] === 0) {
+  //     return;
+  //   }
 
-    this.setState((prevState: IBurgerState) => {
-      const newValue = prevState.ingredients[type] - 1;
-      const newIngredients = {...prevState.ingredients};
-      newIngredients[type] = newValue;
+  //   this.setState((prevState: IBurgerState) => {
+  //     const newValue = prevState.ingredients[type] - 1;
+  //     const newIngredients = {...prevState.ingredients};
+  //     newIngredients[type] = newValue;
 
-      return {
-        ingredients: newIngredients
-      };
-    })
-  }
+  //     return {
+  //       ingredients: newIngredients
+  //     };
+  //   })
+  // }
 
   public render () {
-    const { ingredients } = this.state;
+    const { ingredients, totalPrice } = this.props;
 
     return (
       <div className="burgerContainer">
         <Burger ingredients={ ingredients } />
         <BurgerControls 
           ingredients={ ingredients } 
-          addIngredient={ this.addIngredientHandler }
-          removeIngredient={ this.removeIngredientHandler }
+          addIngredient={ this.props.initAddIngredient }
+          removeIngredient={ this.props.initRemoveIngredient }
+          totalPrice={ totalPrice }
         />
       </div> 
     )
   }
 }
 
-export default injectIntl(BurgerContainer);
+const mapStateToProps = (state: any) => {
+  return {
+    ingredients: state.ingredientsSlice.ingredients,
+    totalPrice: state.ingredientsSlice.totalPrice
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getIngredients: () => { dispatch(fetchIngredients()); },
+    initAddIngredient: (ingredientName: string) => { dispatch(addIngredientAction(ingredientName)) },
+    initRemoveIngredient: (ingredientName: string) => { dispatch(removeIngredientAction(ingredientName)) }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BurgerContainer);
