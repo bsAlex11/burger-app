@@ -14,10 +14,10 @@ const Burger: React.SFC<IProps> = (props: IProps) => {
   const { ingredients } = props;
 
   return (
-    <React.Fragment>
+    <div className="burger">
       <div className="breadTop"/>
         {
-          Object.keys(ingredients).map((ingredient: string) => {
+          ingredients && Object.keys(ingredients).length > 0 && Object.keys(ingredients).map((ingredient: string) => {
             return new Array(ingredients[ingredient]).fill(ingredient)
               .map((ingredientType: string, index: number) => {
                 return <BurgerIngredient
@@ -28,7 +28,7 @@ const Burger: React.SFC<IProps> = (props: IProps) => {
           })
         }
       <div className="breadBottom" />
-    </React.Fragment>
+    </div>
   );
 }
 

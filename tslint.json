@@ -11,6 +11,7 @@
   "rules": {
     "ordered-imports": false,
     "object-literal-sort-keys": false,
-    "no-console": false
+    "no-console": false,
+    "object-literal-shorthand": [true, "never"]
   }
 }

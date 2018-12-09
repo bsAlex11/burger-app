@@ -16,3 +16,8 @@
     box-shadow: inset -15px 0 #c15711;
     margin: 2% auto;
 }
+
+.burger {
+    overflow: auto;
+    height: 300px;
+}
