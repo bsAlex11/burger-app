@@ -1,16 +1,29 @@
 import * as actionTypes from '../actions/actionTypes';
+import { IIngredients } from '../../Burger/IBurgerInterfaces';
 
-const initialState = {
-  ingredients: {},
+const initialState: IInialState = {
+  ingredients: {} as IIngredients,
   totalPrice: 4
 }
 
-const IngredientPrices = {
+const IngredientPrices: IIngredientsPrices = {
   salad: 0.4,
   cheese: 0.6,
   meat: 1.3,
   bacon: 0.7
 };
+
+interface IInialState {
+  ingredients: IIngredients;
+  totalPrice: number;
+}
+
+interface IIngredientsPrices {
+  salad: number;
+  cheese: number;
+  meat: number;
+  bacon: number;
+}
 
 export const ingredientsReducer = (state = initialState, action: any) => {
   switch(action.type) {
