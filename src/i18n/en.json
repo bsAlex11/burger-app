@@ -1,8 +1,10 @@
 {
   "label.burger": "Burger",
+  "label.order": "Order Now",
   "label.orders": "Orders",
   "label.less": "Less",
   "label.menu": "Menu",
   "label.more": "More",
+  "label.no_ingredients": "Start adding ingredients to your burger.",
   "label.totalPrice": "Total Price:"
 }

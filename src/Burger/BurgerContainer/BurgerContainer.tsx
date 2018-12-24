@@ -65,17 +65,36 @@ class BurgerContainer extends React.Component<IProps, IBurgerState> {
   //   })
   // }
 
+  public checkIfIngredients: (ingredients: IIngredients) => boolean = (ingredients) => {
+    const ingsValues = Object.keys(ingredients).map((ing: string) => {
+      return ingredients[ing];
+    });
+    const value = ingsValues.some((elm: number) => {
+      return elm > 0;
+    });  
+    if(value) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public render () {
     const { ingredients, totalPrice } = this.props;
+    const existingIngredients: boolean =  this.checkIfIngredients(ingredients);
 
     return (
       <div className="burgerContainer">
-        <Burger ingredients={ ingredients } />
+        <Burger 
+          ingredients={ ingredients } 
+          existingIngredients = { existingIngredients }
+          />
         <BurgerControls 
           ingredients={ ingredients } 
           addIngredient={ this.props.initAddIngredient }
           removeIngredient={ this.props.initRemoveIngredient }
           totalPrice={ totalPrice }
+          existingIngredients = { existingIngredients }
         />
       </div> 
     )
