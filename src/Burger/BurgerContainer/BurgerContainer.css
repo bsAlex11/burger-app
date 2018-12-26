@@ -3,3 +3,46 @@
     margin: 80px auto 0;
     height: 450px;
 }
+
+.modalContent {
+    position: relative;
+}
+
+.modalHeader {
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+.ingredientContainer {
+    margin-bottom: 15px;
+    padding-left: 15px;
+    font-size: 14px;
+}
+
+.ingredient {
+    min-width: 60px;
+    display: inline-block;
+}
+
+.ingAmount {
+    padding-left: 30px;
+}
+
+.checkoutButtonsContainer {
+    position: absolute;
+    bottom: -120px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.toCheckout {
+    text-decoration: none;
+    color: #000000;
+}
+
+.ReactModal__Content.ReactModal__Content--after-open {
+    height: 320px !important;
+    max-width: 450px !important;
+    transform: translate(50%, 50%) !important;
+}

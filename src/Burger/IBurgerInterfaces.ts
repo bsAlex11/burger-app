@@ -3,7 +3,7 @@ export interface IBurgerIngredientProps {
 } 
 
 export interface IBurgerState {
-    ingredients: IIngredients;
+    isCheckoutModalOpen: boolean;
 }
 
 export interface IIngredients {

@@ -1,10 +1,17 @@
 {
   "label.burger": "Burger",
+  "label.cancel": "Cancel",
+  "label.checkout_message": "Your burger is almost done:",
+  "label.ingredient_salad": "Salad:",
+  "label.ingredient_cheese": "Cheese:",
+  "label.ingredient_meat": "Meat:",
+  "label.ingredient_bacon": "Bacon:",
   "label.order": "Order Now",
   "label.orders": "Orders",
   "label.less": "Less",
   "label.menu": "Menu",
   "label.more": "More",
   "label.no_ingredients": "Start adding ingredients to your burger.",
+  "label.to_checkout": "Go to checkout",
   "label.totalPrice": "Total Price:"
 }

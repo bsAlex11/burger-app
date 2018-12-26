@@ -13,11 +13,13 @@ interface IProps {
   removeIngredient: (type: string) => void;
   totalPrice: number;
   existingIngredients: boolean;
+  toggleCheckoutPopUp: () => void;
   intl: InjectedIntl;
 }
 
 const BurgerControls: React.SFC<IProps & InjectedIntlProps> = (props: IProps) => {
-  const { ingredients, addIngredient, removeIngredient, totalPrice, existingIngredients, intl } = props;
+  const { ingredients, addIngredient, removeIngredient, totalPrice,
+    existingIngredients, toggleCheckoutPopUp, intl } = props;
 
   return (
     <div className='controlsContainer'>
@@ -36,7 +38,13 @@ const BurgerControls: React.SFC<IProps & InjectedIntlProps> = (props: IProps) =>
         })
       } 
       <div className="orderButtonContainer">
-        <button disabled={ !existingIngredients } className="orderBtn">{ intl.formatMessage({ id:"label.order" }) }</button>
+        <button 
+          disabled={ !existingIngredients } 
+          className="orderBtn"
+          onClick={ toggleCheckoutPopUp }
+          >
+            { intl.formatMessage({ id:"label.order" }) }    
+        </button>
       </div>
     </div>  
   );

@@ -1,4 +1,8 @@
 import * as React from 'react';
+import * as Modal from 'react-modal';
+import { injectIntl, InjectedIntl, InjectedIntlProps } from 'react-intl';
+import { NavLink } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 
 import Burger from '../Burger';
@@ -7,6 +11,7 @@ import BurgerControls from '../BurgerControls/BurgerControls';
 import { fetchIngredients, addIngredientAction, removeIngredientAction } from '../../store/actions/ingredientsActions';
 
 import { IBurgerState, IIngredients } from './../IBurgerInterfaces';
+import { RoutePaths } from '../../constants/routePaths';
 
 import './BurgerContainer.css';
 
@@ -16,54 +21,18 @@ interface IProps {
   totalPrice: number;
   initAddIngredient: (ingredientName: string) => void;
   initRemoveIngredient: (ingredientName: string) => void;
+  intl: InjectedIntl;
 }
 
-class BurgerContainer extends React.Component<IProps, IBurgerState> {
+class BurgerContainer extends React.Component<IProps & InjectedIntlProps, IBurgerState> {
 
-  // public state: IBurgerState = {
-  //   ingredients: {
-  //     salad: 2,
-  //     cheese: 1,
-  //     meat: 1,
-  //     bacon: 2
-  //   }
-  // }
+  public state: IBurgerState = {
+    isCheckoutModalOpen: false
+  }
 
   public componentDidMount() {
     this.props.getIngredients();
-    // axiosInstance.get('ingredients.json').then(response => {
-    //   console.log(response);
-    // });
   }
-
-  // public addIngredientHandler: (type: string) => void = (type: string) => {
-
-  //   this.setState((prevState: IBurgerState) => {
-  //     const newValue = prevState.ingredients[type] + 1;
-  //     const newIngredients = {...prevState.ingredients};
-  //     newIngredients[type] = newValue;
-
-  //     return {
-  //       ingredients: newIngredients
-  //     };
-  //   })
-  // }
-
-  // public removeIngredientHandler: (type: string) => void = (type: string) => {
-  //   if (this.state.ingredients[type] === 0) {
-  //     return;
-  //   }
-
-  //   this.setState((prevState: IBurgerState) => {
-  //     const newValue = prevState.ingredients[type] - 1;
-  //     const newIngredients = {...prevState.ingredients};
-  //     newIngredients[type] = newValue;
-
-  //     return {
-  //       ingredients: newIngredients
-  //     };
-  //   })
-  // }
 
   public checkIfIngredients: (ingredients: IIngredients) => boolean = (ingredients) => {
     const ingsValues = Object.keys(ingredients).map((ing: string) => {
@@ -79,23 +48,67 @@ class BurgerContainer extends React.Component<IProps, IBurgerState> {
     }
   }
 
+  public toggleCheckoutPopUp: () => void = () => {
+    this.setState((prevState: IBurgerState) =>{
+      return {
+        isCheckoutModalOpen: !prevState.isCheckoutModalOpen
+      }
+    });
+  }
+
   public render () {
-    const { ingredients, totalPrice } = this.props;
+    const { ingredients, totalPrice, intl } = this.props;
     const existingIngredients: boolean =  this.checkIfIngredients(ingredients);
+    const modalStyles = {overlay: {zIndex: 10}};
 
     return (
       <div className="burgerContainer">
         <Burger 
           ingredients={ ingredients } 
           existingIngredients = { existingIngredients }
-          />
+        />
         <BurgerControls 
           ingredients={ ingredients } 
           addIngredient={ this.props.initAddIngredient }
           removeIngredient={ this.props.initRemoveIngredient }
           totalPrice={ totalPrice }
-          existingIngredients = { existingIngredients }
+          existingIngredients={ existingIngredients }
+          toggleCheckoutPopUp={ this.toggleCheckoutPopUp }
         />
+        <Modal
+        style={ modalStyles }
+          isOpen={ this.state.isCheckoutModalOpen }
+          onRequestClose={ this.toggleCheckoutPopUp }
+          ariaHideApp={ false }
+          // className="checkoutModal"
+          // overlayClassName="checkoutOverlay"
+        >
+          <div className="modalContent">
+            <p className="modalHeader">
+              { intl.formatMessage({ id:'label.checkout_message' }) }
+            </p>  
+            { 
+              Object.keys(ingredients).map((ingredient: string) => {
+                if(ingredients[ingredient] > 0) {
+                  return <p key={ ingredient } className="ingredientContainer">
+                          <span className="ingredient">{ intl.formatMessage({ id:`label.ingredient_${ ingredient }` }) }</span> 
+                          <span className="ingAmount">{ ingredients[ingredient] }</span>
+                        </p>
+                }
+                return null;
+              })
+            }
+            <div className="checkoutButtonsContainer">
+              <button onClick={ this.toggleCheckoutPopUp }>{ intl.formatMessage({ id: "label.cancel" }) }</button>
+              <NavLink
+                to={ RoutePaths.checkout } 
+                className="toCheckout"
+              >
+                { intl.formatMessage({ id:'label.to_checkout' }) }
+              </NavLink>
+            </div>  
+          </div>
+        </Modal>  
       </div> 
     )
   }
@@ -116,4 +129,4 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BurgerContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(BurgerContainer));

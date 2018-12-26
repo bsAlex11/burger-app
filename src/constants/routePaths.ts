@@ -1,4 +1,5 @@
 export const RoutePaths= {
     root: '/',
-    orders: '/orders'
+    orders: '/orders',
+    checkout: '/checkout'
 }

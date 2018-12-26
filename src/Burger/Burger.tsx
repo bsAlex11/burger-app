@@ -26,7 +26,7 @@ const Burger: React.SFC<IProps> = (props: IProps) => {
                 .map((ingredientType: string, index: number) => {
                   return <BurgerIngredient
                     type={ ingredientType } 
-                    key={ index + ingredientType } 
+                    key={ ingredientType + index } 
                   />
                 });
             })
